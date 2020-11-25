@@ -1,0 +1,18 @@
+{
+    "name": "timer",
+    "config": {
+        "connector.class": "org.apache.camel.kafkaconnector.timer.CamelTimerSourceConnector",
+        "topics": "camel.timer.1",
+        "camel.source.path.timerName": "timer",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "false",
+        "tasks.max": "1",
+        "transforms": "HoistField,InsertField",
+        "transforms.HoistField.type": "org.apache.kafka.connect.transforms.HoistField$Value",
+        "transforms.HoistField.field": "timer",
+        "transforms.InsertField.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+        "transforms.InsertField.timestamp.field": "ts",
+        "transforms.InsertField.topic.field": "topic"
+    }
+}
