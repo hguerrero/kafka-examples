@@ -1,3 +1,3 @@
-# Kafka Connect plugins
+# Camel Kafka Connector plugins
 
-Download and extract your custom plugins for Kafka Connect in this folder.
+Download and extract your Camel Kafka Connector plugins for Kafka Connect in this folder.
