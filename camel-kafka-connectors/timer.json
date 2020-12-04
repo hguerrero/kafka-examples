@@ -4,6 +4,7 @@
         "connector.class": "org.apache.camel.kafkaconnector.timer.CamelTimerSourceConnector",
         "topics": "camel.timer.1",
         "camel.source.path.timerName": "timer",
+        "camel.source.endpoint.period": "5000",
         "key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "value.converter.schemas.enable": "false",

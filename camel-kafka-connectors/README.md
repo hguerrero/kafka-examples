@@ -65,6 +65,8 @@ d6b865894d38        confluentinc/cp-kafka:6.0.0                   "/etc/confluen
 a28b5e2868fd        confluentinc/cp-zookeeper:6.0.0               "/etc/confluent/dock…"   8 days ago          Up 13 hours                        2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp
 ```
 
+>Wait a few moments for all the containers to start.
+
 Kafka Connect supports a REST API for managing connectors running on port `8083`. We can query this API to check the information regarding the _connector-plugins_ and the _connectors_.
 
 Let's check the plugins available by calling the following command
@@ -79,7 +81,7 @@ If you are using `jq`
 curl -s http://localhost:8083/connector-plugins | jq
 ```
 
-> We are using jq for JSON processing 
+> We are using jq for JSON processing
 
 The output should be a list of the plugins available where you will find the `CamelTimerSourceConnector`
 
@@ -93,17 +95,17 @@ The output should be a list of the plugins available where you will find the `Ca
   {
     "class": "org.apache.camel.kafkaconnector.CamelSinkConnector",
     "type": "sink",
-    "version": "0.6.0"
+    "version": "0.6.1"
   },
   {
     "class": "org.apache.camel.kafkaconnector.CamelSourceConnector",
     "type": "source",
-    "version": "0.6.0"
+    "version": "0.6.1"
   },
   {
     "class": "org.apache.camel.kafkaconnector.timer.CamelTimerSourceConnector",
     "type": "source",
-    "version": "0.6.0"
+    "version": "0.6.1"
   },
 ...
 ]
@@ -122,6 +124,7 @@ We will be using the following configuration from the `timer.json` file:
         "connector.class": "org.apache.camel.kafkaconnector.timer.CamelTimerSourceConnector",
         "topics": "camel.timer.1",
         "camel.source.path.timerName": "timer",
+        "camel.source.endpoint.period": "5000",
         "key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "value.converter.schemas.enable": "false",
@@ -139,8 +142,9 @@ We will be using the following configuration from the `timer.json` file:
 We will define some required configuration: the name of our connector: `timer`and the proper `config` properties. Then adding:
 
 * `connector.class` pointing to the FQN of the `CamelTimerSourceConnector`
-* `topics`name where we will be delivering the events and finally 
-* `camel.source.path.timerName`the required specific Camel component minimum configuration.
+* `topics`name where we will be delivering the events
+* `camel.source.path.timerName`the required specific Camel component minimum configuration and
+* `camel.source.endpoint.period` to send the event every 5 seconds
 
 As you can notice, there are other configuration values that are Kafka Connect generics like the key and value converters, the number of task and some transformations just to get a better record structure.
 
@@ -165,6 +169,7 @@ If the command was successful it will return the information of the new connecto
     "connector.class": "org.apache.camel.kafkaconnector.timer.CamelTimerSourceConnector",
     "topics": "camel.timer.1",
     "camel.source.path.timerName": "timer",
+    "camel.source.endpoint.period": "5000",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter.schemas.enable": "false",
