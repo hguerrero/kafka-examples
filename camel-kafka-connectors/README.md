@@ -187,7 +187,7 @@ If the command was successful it will return the information of the new connecto
 }
 ```
 
-Verify Kafka events
+## Verify Kafka events
 
 We can now verify the setup is working correctly. We will be using the `kafkacat`utility for this purpose:
 
