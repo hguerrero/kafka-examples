@@ -2,7 +2,7 @@
 
 This repository contains a set of examples to be used with Apache Kafka and other open source components.
 
-* [Camel Kafka Timer Connector](camel-kafka-connectors): A simple example of how to use the Apache Camel subproject plugins with Kafka Connect using the Camel Kafka Timer connector.
+* [Timer Camel Kafka Connector](camel-kafka-connectors): A simple example of how to use the Apache Camel subproject plugins with Kafka Connect using the Camel Kafka Timer connector.
 
 ## System Requirements
 
