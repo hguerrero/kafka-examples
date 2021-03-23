@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.4
+    container_name: keycloak-registry
+    ports:
+      - "18080:8080"
+    environment:
+      KEYCLOAK_USER: "admin"
+      KEYCLOAK_PASSWORD: "admin"
+      KEYCLOAK_IMPORT: "/tmp/realm/registry-realm.json"
+      KEYCLOAK_FRONTEND_URL: "http://host.docker.internal:18080/auth"
+    volumes: 
+      - "./keycloak-realm/:/tmp/realm/"
+
+  registry:
+    image: apicurio/apicurio-registry-mem:2.0.0.RC1
+    container_name: registry
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+    ports:
+      - "8081:8080"
+    environment:
+      QUARKUS_PROFILE: prod
+      AUTH_ENABLED: 'true'
+      KEYCLOAK_URL: 'http://host.docker.internal:18080/auth'
+      KEYCLOAK_REALM: 'registry'
+      KEYCLOAK_API_CLIENT_ID: 'registry-api'
+      KEYCLOAK_UI_CLIENT_ID: 'apicurio-registry'
