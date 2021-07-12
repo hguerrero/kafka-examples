@@ -22,7 +22,7 @@ public class VehicleGenerator {
 
     @Outgoing("uber")
     public Flowable<KafkaRecord<String,String>> generateVehicleData() {
-        return Flowable.interval(500, TimeUnit.MILLISECONDS)
+        return Flowable.interval(5, TimeUnit.SECONDS)
                 .onBackpressureBuffer()
                 .map(tick -> {
                     VehicleInfo v = new VehicleInfo();
